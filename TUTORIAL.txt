@@ -1,0 +1,22 @@
+COMO USAR A API:
+
+/*PRODUTOS*/
+*Pegar todos os produtos: GET
+    base_url/api/clothes
+
+*Envia um novo produto: POST
+    base_url/api/cloth
+
+*Pega um produto especifico: GET
+    base_url/api/cloth/{id}
+
+*Edita um produto: PUT
+    base_url/api/cloth/6
+
+*Deleta uma imagem de um produto.
+    base_url/api/clothImage/310
+
+*Deleta um produtos com todas as suas imagens.
+    base_url/api/cloth/6
+
+/*USERS*/
