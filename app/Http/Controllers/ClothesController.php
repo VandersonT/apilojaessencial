@@ -3,24 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Cloth;
-use App\Models\Images;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage; 
+
+use App\Models\Cloth;
+use App\Models\Images;
 
 class ClothesController extends Controller{
     
     public function getAllClothes(){
         $array = ['error' => ''];
 
-        $products =  Cloth::get();
-
-        if(count($products) < 1){
-            $array['error'] = 'Não temos nenhum produto cadastrado.';
-            return $array;
-        }
-
-        $array['products'] =  $products;
+        $array['products'] = Cloth::get();
+        
         $array['images'] = Images::get();;
 
         return $array;
@@ -148,9 +143,6 @@ class ClothesController extends Controller{
             }
             if($request->info){
                 $product->info = $request->info;
-            }
-            if($request->cover){
-                $product->cover = $request->cover;
             }
             $product->save();
 
