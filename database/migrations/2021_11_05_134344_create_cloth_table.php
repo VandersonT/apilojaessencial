@@ -19,10 +19,12 @@ class CreateClothTable extends Migration
             $table->string('description');
             $table->float('price', 20, 2);
             $table->string('type');
-            $table->integer('size');
+            $table->string('size');
             $table->integer('amount');
             $table->string('info');
             $table->string('cover');
+            $table->string('age');
+            $table->string('sex');
         });
     }
 

@@ -48,6 +48,8 @@ class ClothesController extends Controller{
             'size' => 'required',
             'amount' => 'required',
             'info' => 'required',
+            'age' => 'required',
+            'sex' => 'required',
             'cover' => 'required'
         ];
 
@@ -78,6 +80,8 @@ class ClothesController extends Controller{
             $cloth->amount = $request->amount;
             $cloth->info = $request->info;
             $cloth->cover = $urlCover;
+            $cloth->age = $request->age;
+            $cloth->sex = $request->sex;
         $cloth->save();
 
         if(!empty($request->allFiles()['images'])){

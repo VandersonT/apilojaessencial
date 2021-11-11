@@ -43,26 +43,17 @@ class UserController extends Controller
     public function addNewUser(Request $request){
         $array = ['error' => ''];
 
-        $rules = [
-            'name' => 'required|max:40',
-            'email' => 'required|email:rfc,dns|unique:user,email',
-            'password' => 'required',
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if($validator->fails()){
-            $array['error'] = $validator->messages();
+        if($request->name == '' || $request->email == '' || $request->password == '' || $request->confirmPassword == ''){
+            $array['error'] = 'Não envie campos vazios.';
             return $array;
         }
 
-        $urlPhoto = '';
-        if($request->hasFile('photo')){
-            if($request->file('photo')->isValid()){
-                $photo = $request->file('photo')->store('public');
-                $urlPhoto = asset(Storage::url($photo));
-            }
+        if($request->password != $request->confirmPassword){
+            $array['error'] = 'A senha e a confirmação não coincidem.';
+            return $array;
         }
+
+        $urlPhoto = url('no-picture.png');
 
         $token = md5(time().rand(0,9999).rand(0,999));
 
