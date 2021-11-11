@@ -76,15 +76,8 @@ class UserController extends Controller
     public function loginAction(Request $request){
         $array = ['error' => ''];
 
-        $rules = [
-            'email' => 'required',
-            'password' => 'required',
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if($validator->fails()){
-            $array['error'] = $validator->messages();
+        if($request->email == '' || $request->password == ''){
+            $array['error'] = 'Não envie campos vazios.';
             return $array;
         }
 
