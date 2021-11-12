@@ -42,7 +42,10 @@ class ClothesController extends Controller{
 
         $urlData = $request->query();
 
-        $array['products'] = Cloth::where('name', 'like' ,'%'.$urlData['search'].'%')->get();
+        $array['products'] = Cloth::
+            where('name', 'like' ,'%'.$urlData['search'].'%')
+            ->orWhere('description', 'like' ,'%'.$urlData['search'].'%')
+        ->get();
 
         /*$data = Cloth::
                 where(function($query) use ($filter){
