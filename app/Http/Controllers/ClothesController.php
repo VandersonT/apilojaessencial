@@ -44,9 +44,9 @@ class ClothesController extends Controller{
 
         $urlData = $request->query();
 
-        if(empty($urlData['order'])){
+        /*if(empty($urlData['order'])){
             $urlData['order'] = 'Normal';
-        }
+        }*/
 
         if(empty($urlData['p1'])){
             $urlData['p1'] = '';
@@ -78,6 +78,15 @@ class ClothesController extends Controller{
                         $query->where('name', 'like' ,'%'.$urlData['search'].'%')
                         ->orWhere('description', 'like' ,'%'.$urlData['search'].'%');
                     })
+
+                    ->where(function ($query) use ($urlData) {
+                        if(!empty($urlData['gender'])){
+                            if($urlData['gender'] != 'todos'){
+                                $query->where('sex', $urlData['gender']);
+                            }
+                        }
+                    })
+
                 ->get();
                 break;
             case 'Menor Preço':
@@ -92,6 +101,13 @@ class ClothesController extends Controller{
                     ->where(function ($query) use ($urlData) {
                         $query->where('name', 'like' ,'%'.$urlData['search'].'%')
                         ->orWhere('description', 'like' ,'%'.$urlData['search'].'%');
+                    })
+                    ->where(function ($query) use ($urlData) {
+                        if(!empty($urlData['gender'])){
+                            if($urlData['gender'] != 'todos'){
+                                $query->where('sex', $urlData['gender']);
+                            }
+                        }
                     })
                     ->orderBy('cloth.price')
                 ->get();
@@ -108,6 +124,13 @@ class ClothesController extends Controller{
                     ->where(function ($query) use ($urlData) {
                         $query->where('name', 'like' ,'%'.$urlData['search'].'%')
                         ->orWhere('description', 'like' ,'%'.$urlData['search'].'%');
+                    })
+                    ->where(function ($query) use ($urlData) {
+                        if(!empty($urlData['gender'])){
+                            if($urlData['gender'] != 'todos'){
+                                $query->where('sex', $urlData['gender']);
+                            }
+                        }
                     })
                     ->orderByDesc('cloth.price')
                 ->get();
