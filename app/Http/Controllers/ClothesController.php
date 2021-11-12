@@ -44,10 +44,12 @@ class ClothesController extends Controller{
 
         $urlData = $request->query();
 
-        /*if(empty($urlData['order'])){
+        #OrderBy
+        if(empty($urlData['order'])){
             $urlData['order'] = 'Normal';
-        }*/
+        }
 
+        #product
         if(empty($urlData['p1'])){
             $urlData['p1'] = '';
         }
@@ -63,6 +65,33 @@ class ClothesController extends Controller{
         if(empty($urlData['p5'])){
             $urlData['p5'] = '';
         }
+        if(empty($urlData['p1']) && empty($urlData['p2']) && empty($urlData['p3']) && empty($urlData['p4']) && empty($urlData['p5'])){
+            $urlData['p1'] = 'calça';
+            $urlData['p2'] = 'sapato';
+            $urlData['p3'] = 'blusa';
+            $urlData['p4'] = 'camisa';
+            $urlData['p5'] = 'jaqueta';
+        }
+
+        #Age
+        if(empty($urlData['age1'])){
+            $urlData['age1'] = '';
+        }
+        if(empty($urlData['age2'])){
+            $urlData['age2'] = '';
+        }
+        if(empty($urlData['age3'])){
+            $urlData['age3'] = '';
+        }
+        if(empty($urlData['age4'])){
+            $urlData['age4'] = '';
+        }
+        if(empty($urlData['age1']) && empty($urlData['age2']) && empty($urlData['age3']) && empty($urlData['age4'])){
+            $urlData['age1'] = 'bebês';
+            $urlData['age2'] = 'crianças';
+            $urlData['age3'] = 'adolecentes';
+            $urlData['age4'] = 'adultos';
+        }
 
         switch($urlData['order']){
             case 'Normal':
@@ -73,6 +102,12 @@ class ClothesController extends Controller{
                         ->orWhere('cloth.type', '=' ,$urlData['p3'])
                         ->orWhere('cloth.type', '=' ,$urlData['p4'])
                         ->orWhere('cloth.type', '=' ,$urlData['p5']);
+                    })
+                    ->where(function($query) use ($urlData){
+                        $query->where('cloth.age', $urlData['age1'])
+                        ->orWhere('cloth.age', '=' ,$urlData['age2'])
+                        ->orWhere('cloth.age', '=' ,$urlData['age3'])
+                        ->orWhere('cloth.age', '=' ,$urlData['age4']);
                     })
                     ->where(function ($query) use ($urlData) {
                         $query->where('name', 'like' ,'%'.$urlData['search'].'%')
@@ -98,6 +133,12 @@ class ClothesController extends Controller{
                         ->orWhere('cloth.type', '=' ,$urlData['p4'])
                         ->orWhere('cloth.type', '=' ,$urlData['p5']);
                     })
+                    ->where(function($query) use ($urlData){
+                        $query->where('cloth.age', $urlData['age1'])
+                        ->orWhere('cloth.age', '=' ,$urlData['age2'])
+                        ->orWhere('cloth.age', '=' ,$urlData['age3'])
+                        ->orWhere('cloth.age', '=' ,$urlData['age4']);
+                    })
                     ->where(function ($query) use ($urlData) {
                         $query->where('name', 'like' ,'%'.$urlData['search'].'%')
                         ->orWhere('description', 'like' ,'%'.$urlData['search'].'%');
@@ -120,6 +161,12 @@ class ClothesController extends Controller{
                         ->orWhere('cloth.type', '=' ,$urlData['p3'])
                         ->orWhere('cloth.type', '=' ,$urlData['p4'])
                         ->orWhere('cloth.type', '=' ,$urlData['p5']);
+                    })
+                    ->where(function($query) use ($urlData){
+                        $query->where('cloth.age', $urlData['age1'])
+                        ->orWhere('cloth.age', '=' ,$urlData['age2'])
+                        ->orWhere('cloth.age', '=' ,$urlData['age3'])
+                        ->orWhere('cloth.age', '=' ,$urlData['age4']);
                     })
                     ->where(function ($query) use ($urlData) {
                         $query->where('name', 'like' ,'%'.$urlData['search'].'%')
