@@ -9,11 +9,12 @@ use App\Http\Controllers\UserController;
 
 /*-----------------------------------Products-------------------------------------------*/
 Route::get('/clothes', [ClothesController::class, 'getAllClothes']);
+Route::get('/filteredClothes', [ClothesController::class, 'clothesWithFilter']);
 Route::post('/cloth', [ClothesController::class, 'addNewCloth']);
 Route::get('/cloth/{id}', [ClothesController::class, 'getCloth']);
 Route::put('/cloth/{id}', [ClothesController::class, 'editCloth']);
 Route::delete('/clothImage/{id}', [ClothesController::class, 'deleteClothImage']);
-Route::delete('/cloth/{id}', [ClothesController::class, 'deleteCloth']);
+Route::delete('/cloth/{id}', ['teste'=> 'search', ClothesController::class, 'deleteCloth']);
 /*--------------------------------------------------------------------------------------*/
 
 /*-------------------------------------Users--------------------------------------------*/

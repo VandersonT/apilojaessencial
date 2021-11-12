@@ -37,26 +37,30 @@ class ClothesController extends Controller{
         return $array;
     }
 
+    public function clothesWithFilter(Request $request){
+        $array = ['error' => ''];
+
+        $urlData = $request->query();
+
+        $array['products'] = Cloth::where('name', 'like' ,'%'.$urlData['search'].'%')->get();
+
+        /*$data = Cloth::
+                where(function($query) use ($filter){
+                $query->where('cloth.level', $filter['levels'][0])
+                ->orWhere('cloth.level', $filter['levels'][1])
+                ->orWhere('cloth.level', $filter['levels'][2])
+                ->orWhere('cloth.level', $filter['levels'][3]);
+            })
+        ->get();*/
+
+        return $array;
+    }
+
     public function addNewCloth(Request $request){
         $array = ['error' => ''];
 
-        $rules = [
-            'name' => 'required|max:40',
-            'description' => 'required',
-            'price' => 'required',
-            'type' => 'required',
-            'size' => 'required',
-            'amount' => 'required',
-            'info' => 'required',
-            'age' => 'required',
-            'sex' => 'required',
-            'cover' => 'required'
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if($validator->fails()){
-            $array['error'] = $validator->messages();
+        if($request->name == '' || $request->description == '' || $request->price == '' || $request->price == '' || $request->type == '' || $request->size == '' || $request->amount == '' || $request->info == '' || $request->cover == '' || $request->age == '' || $request->sex == ''){
+            $array['error'] = 'Não envie campos vazios';
             return $array;
         }
 
