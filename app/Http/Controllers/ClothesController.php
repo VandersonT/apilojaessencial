@@ -38,17 +38,90 @@ class ClothesController extends Controller{
     }
 
     public function clothesWithFilter(Request $request){
+        //if(!empty($urlData['order'])){}
+
         $array = ['error' => ''];
 
         $urlData = $request->query();
 
-        $array['products'] = Cloth::
-            where('name', 'like' ,'%'.$urlData['search'].'%')
-            ->orWhere('description', 'like' ,'%'.$urlData['search'].'%')
-        ->get();
+        if(empty($urlData['order'])){
+            $urlData['order'] = 'Normal';
+        }
+
+        if(empty($urlData['p1'])){
+            $urlData['p1'] = '';
+        }
+        if(empty($urlData['p2'])){
+            $urlData['p2'] = '';
+        }
+        if(empty($urlData['p3'])){
+            $urlData['p3'] = '';
+        }
+        if(empty($urlData['p4'])){
+            $urlData['p4'] = '';
+        }
+        if(empty($urlData['p5'])){
+            $urlData['p5'] = '';
+        }
+
+        switch($urlData['order']){
+            case 'Normal':
+                $array['products'] = Cloth::
+                    where(function($query) use ($urlData){
+                        $query->where('cloth.type', $urlData['p1'])
+                        ->orWhere('cloth.type', '=' ,$urlData['p2'])
+                        ->orWhere('cloth.type', '=' ,$urlData['p3'])
+                        ->orWhere('cloth.type', '=' ,$urlData['p4'])
+                        ->orWhere('cloth.type', '=' ,$urlData['p5']);
+                    })
+                    ->where(function ($query) use ($urlData) {
+                        $query->where('name', 'like' ,'%'.$urlData['search'].'%')
+                        ->orWhere('description', 'like' ,'%'.$urlData['search'].'%');
+                    })
+                ->get();
+                break;
+            case 'Menor Preço':
+                $array['products'] = Cloth::
+                    where(function($query) use ($urlData){
+                        $query->where('cloth.type', $urlData['p1'])
+                        ->orWhere('cloth.type', '=' ,$urlData['p2'])
+                        ->orWhere('cloth.type', '=' ,$urlData['p3'])
+                        ->orWhere('cloth.type', '=' ,$urlData['p4'])
+                        ->orWhere('cloth.type', '=' ,$urlData['p5']);
+                    })
+                    ->where(function ($query) use ($urlData) {
+                        $query->where('name', 'like' ,'%'.$urlData['search'].'%')
+                        ->orWhere('description', 'like' ,'%'.$urlData['search'].'%');
+                    })
+                    ->orderBy('cloth.price')
+                ->get();
+                break;
+            case 'Maior Preço':
+                $array['products'] = Cloth::
+                    where(function($query) use ($urlData){
+                        $query->where('cloth.type', $urlData['p1'])
+                        ->orWhere('cloth.type', '=' ,$urlData['p2'])
+                        ->orWhere('cloth.type', '=' ,$urlData['p3'])
+                        ->orWhere('cloth.type', '=' ,$urlData['p4'])
+                        ->orWhere('cloth.type', '=' ,$urlData['p5']);
+                    })
+                    ->where(function ($query) use ($urlData) {
+                        $query->where('name', 'like' ,'%'.$urlData['search'].'%')
+                        ->orWhere('description', 'like' ,'%'.$urlData['search'].'%');
+                    })
+                    ->orderByDesc('cloth.price')
+                ->get();
+                break;
+            default:
+                $array['error'] = "No campo 'order' deve esta, 'Normal', 'Menor Preço' ou 'Maior Preço'.";
+                return $array;
+                break;
+        }
+
+        
 
         /*$data = Cloth::
-                where(function($query) use ($filter){
+            where(function($query) use ($filter){
                 $query->where('cloth.level', $filter['levels'][0])
                 ->orWhere('cloth.level', $filter['levels'][1])
                 ->orWhere('cloth.level', $filter['levels'][2])

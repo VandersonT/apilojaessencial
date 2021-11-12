@@ -15,13 +15,13 @@ class CreateClothTable extends Migration
     {
         Schema::create('cloth', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->text('name');
             $table->string('description');
             $table->float('price', 20, 2);
             $table->string('type');
             $table->string('size');
             $table->integer('amount');
-            $table->string('info');
+            $table->text('info');
             $table->string('cover');
             $table->string('age');
             $table->string('sex');
