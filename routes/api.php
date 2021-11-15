@@ -31,4 +31,9 @@ Route::put('/user/{id}', [UserController::class, 'editUser']);//edit user
 Route::post('/addFavorite', [RelationController::class, 'addProductToFavorites']);
 Route::get('/favorites/{id}', [RelationController::class, 'getUserFavorites']);
 Route::delete('/favorite/{id}', [RelationController::class, 'removeFavorite']);
+
+Route::post('/addToKart', [RelationController::class, 'addProductToKart']);
+Route::get('/kart/{id}', [RelationController::class, 'getUserKart']);
+Route::put('/kart', [RelationController::class, 'editUserKart']);
+Route::delete('/kart/{id}', [RelationController::class, 'deleteUserKart']);
 /*--------------------------------------------------------------------------------------*/
