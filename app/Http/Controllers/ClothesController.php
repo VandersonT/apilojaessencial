@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Models\Cloth;
 use App\Models\Images;
+use App\Models\Comment;
 
 class ClothesController extends Controller{
     
@@ -33,6 +34,12 @@ class ClothesController extends Controller{
 
         $array['product'] = $product;
         $array['images'] = Images::where('cloth_id', $request->id)->get();
+
+        $array['comments'] = Comment::
+            where('productId', $request->id)
+            ->join('user', 'user.id', 'comments.userId')
+            ->select('comments.*', 'user.name')
+        ->get();
 
         return $array;
     }
