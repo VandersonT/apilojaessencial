@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClothesController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RelationController;
 
 /*This is just a test api project using laravel*/
 
@@ -24,4 +25,8 @@ Route::post('/users', [UserController::class, 'addNewUser']);//create new user
 Route::post('/usersLogin', [UserController::class, 'loginAction']);//loga user
 Route::post('/userAuth', [UserController::class, 'authentication']);//check login
 Route::put('/user/{id}', [UserController::class, 'editUser']);//edit user
+/*--------------------------------------------------------------------------------------*/
+
+/*-----------------------------relationshipWithProducts----------------------------------*/
+Route::post('/addFavorite', [RelationController::class, 'addProductToFavorites']);
 /*--------------------------------------------------------------------------------------*/

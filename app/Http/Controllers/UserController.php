@@ -13,7 +13,9 @@ class UserController extends Controller
     public function getAllUsers(){
         $array = ['error' => ''];
 
-        $array['users'] = User::all();
+        $array['users'] = User::
+            select('name', 'email', 'photo', 'access')
+        ->get();
 
         return $array;
     }
