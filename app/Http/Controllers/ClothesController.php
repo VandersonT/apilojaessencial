@@ -188,17 +188,6 @@ class ClothesController extends Controller{
                 break;
         }
 
-        
-
-        /*$data = Cloth::
-            where(function($query) use ($filter){
-                $query->where('cloth.level', $filter['levels'][0])
-                ->orWhere('cloth.level', $filter['levels'][1])
-                ->orWhere('cloth.level', $filter['levels'][2])
-                ->orWhere('cloth.level', $filter['levels'][3]);
-            })
-        ->get();*/
-
         return $array;
     }
 
@@ -248,6 +237,10 @@ class ClothesController extends Controller{
 
                 unset($productImage);
             }
+            $productImage = new Images();
+                $productImage->cloth_id = $cloth->id;
+                $productImage->url = $urlCover;
+            $productImage->save();
         }
 
         return $array;
