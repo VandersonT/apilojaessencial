@@ -29,4 +29,24 @@ class RelationController extends Controller{
         return $array;
     }
 
+    public function getUserFavorites(Request $request){
+        $array = ['error' => ''];
+
+        $array['favorites'] = Favorite::
+            where('userId', $request->id)
+            ->join('cloth', 'cloth.id', 'favorites.productid')
+            ->select('cloth.*', 'favorites.id', 'favorites.productId')
+        ->get();
+
+        return $array;
+    }
+
+    public function removeFavorite(Request $request){
+        $array = ['error' => ''];
+
+        $remove = Favorite::find($request->id)->delete();
+
+        return $array;
+    }
+
 }

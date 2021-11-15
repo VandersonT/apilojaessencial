@@ -29,4 +29,6 @@ Route::put('/user/{id}', [UserController::class, 'editUser']);//edit user
 
 /*-----------------------------relationshipWithProducts----------------------------------*/
 Route::post('/addFavorite', [RelationController::class, 'addProductToFavorites']);
+Route::get('/favorites/{id}', [RelationController::class, 'getUserFavorites']);
+Route::delete('/favorite/{id}', [RelationController::class, 'removeFavorite']);
 /*--------------------------------------------------------------------------------------*/
