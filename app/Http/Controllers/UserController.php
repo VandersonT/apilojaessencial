@@ -130,8 +130,20 @@ class UserController extends Controller
         return $array;
     }
 
-    public function editUser(Request $request){
+    public function updateInfoProfile(Request $request){
         $array = ['error' => ''];
+
+        /*Validation*/
+
+        if(!$request->id){
+            $array['error'] = 'Precisamos do id do perfil para atualizarmos.';
+            return $array; 
+        }
+
+        if($request->newPassword && !$request->currentPassword){
+            $array['error'] = 'Não é possivel alterar a senha sem enviar a atual.';
+            return $array;
+        }
 
         $user = User::find($request->id);
 
@@ -140,21 +152,57 @@ class UserController extends Controller
             return $array;
         }
 
+
+        if($request->newPassword){
+            if(password_verify($request->currentPassword, $user['password'])){
+                $hash = password_hash($request->newPassword, PASSWORD_DEFAULT);
+                $user->password = $hash;
+            }else{
+                $array['error'] = 'senha errada';
+                return $array;
+            }
+        }
+
+
         if($request->name){
             $user->name = $request->name;
         }
 
-        if($request->description){
-            $user->description = $request->description;
-        }
-
-        if($request->password){
-            $user->password = $request->password;
+        if($request->email){
+            $user->email = $request->email;
+            
         }
 
         if($request->access){
             $user->access = $request->access;
         }
+        $user->save();
+        /***/
+
+        return $array;
+    }
+    
+    public function updatePhoto(Request $request){
+        $array = ['error' => ''];
+
+        $url = '';
+        if($request->hasFile('file')){
+            if($request->file('file')->isValid()){
+                $cover = $request->file('file')->store('public');
+                $url = asset(Storage::url($cover));
+            }
+        }else{
+            $array['error'] = 'É obrigatorio o envio da foto principal do produto.';
+            return $array;
+        }
+
+        /***/
+        $user = User::find($request->id);
+
+        if($url != ''){
+            $user->photo = $url;
+        }
+
         $user->save();
 
         return $array;

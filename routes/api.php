@@ -24,7 +24,9 @@ Route::get('/user/{id}', [UserController::class, 'getUser']);//get a specific us
 Route::post('/users', [UserController::class, 'addNewUser']);//create new user
 Route::post('/usersLogin', [UserController::class, 'loginAction']);//loga user
 Route::post('/userAuth', [UserController::class, 'authentication']);//check login
-Route::put('/user/{id}', [UserController::class, 'editUser']);//edit user
+
+Route::post('/updatePhoto/{id}', [UserController::class, 'updatePhoto']);
+Route::put('/updateProfile', [UserController::class, 'updateInfoProfile']);
 /*--------------------------------------------------------------------------------------*/
 
 /*-----------------------------relationshipWithProducts----------------------------------*/
