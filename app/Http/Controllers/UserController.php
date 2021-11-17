@@ -55,7 +55,7 @@ class UserController extends Controller
             return $array;
         }
 
-        $urlPhoto = url('no-picture.png');
+        $urlPhoto = url('/storage/no-picture.png');
 
         $token = md5(time().rand(0,9999).rand(0,999));
 
