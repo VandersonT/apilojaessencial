@@ -17,7 +17,7 @@ class ClothesController extends Controller{
 
         $array['products'] = Cloth::get();
         
-        $array['images'] = Images::get();;
+        $array['images'] = Images::get();
 
         return $array;
     }
@@ -208,10 +208,8 @@ class ClothesController extends Controller{
 
         #Search for main image and send to server
         if($request->hasFile('cover')){
-            if($request->file('cover')->isValid()){
-                $cover = $request->file('cover')->store('public');
-                $urlCover = asset(Storage::url($cover));
-            }
+            $pathName = md5(time().rand(0,1000)).'.jpg';
+            move_uploaded_file($_FILES['cover']['tmp_name'], 'media/'.$pathName);
         }else{
             $array['error'] = 'É obrigatorio o envio da foto principal do produto.';
             return $array;
@@ -225,29 +223,20 @@ class ClothesController extends Controller{
             $cloth->size = $request->size;
             $cloth->amount = $request->amount;
             $cloth->info = $request->info;
-            $cloth->cover = $urlCover;
+            $cloth->cover = url('/media').'/'.$pathName;
             $cloth->age = $request->age;
             $cloth->sex = $request->sex;
         $cloth->save();
 
         if(!empty($request->allFiles()['images'])){
-            for($i = 0; $i < count($request->allFiles()['images']); $i++){
-        
-                $file = $request->allFiles()['images'][$i]->store('public');
-    
-                $url = url('/').Storage::url($file);
-
+            for($i = 0; $i < count($_FILES['images']['name']); $i++){
+                $pathName = md5(time().rand(0,1000)).'.jpg';
+                move_uploaded_file($_FILES['images']['tmp_name'][$i], 'media/'.$pathName);
                 $productImage = new Images();
                     $productImage->cloth_id = $cloth->id;
-                    $productImage->url = $url;
+                    $productImage->url = url('/media').'/'.$pathName;
                 $productImage->save();
-
-                unset($productImage);
             }
-            $productImage = new Images();
-                $productImage->cloth_id = $cloth->id;
-                $productImage->url = $urlCover;
-            $productImage->save();
         }
 
         return $array;

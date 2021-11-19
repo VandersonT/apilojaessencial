@@ -55,7 +55,7 @@ class UserController extends Controller
             return $array;
         }
 
-        $urlPhoto = url('/storage/no-picture.png');
+        $urlPhoto = url('/media/no-picture.png');
 
         $token = md5(time().rand(0,9999).rand(0,999));
 
@@ -185,25 +185,14 @@ class UserController extends Controller
     public function updatePhoto(Request $request){
         $array = ['error' => ''];
 
-        $url = '';
         if($request->hasFile('file')){
-            if($request->file('file')->isValid()){
-                $cover = $request->file('file')->store('public');
-                $url = asset(Storage::url($cover));
-            }
-        }else{
-            $array['error'] = 'É obrigatorio o envio da foto principal do produto.';
-            return $array;
+            $pathName = md5(time().rand(0,1000)).'.jpg';
+            move_uploaded_file($_FILES['file']['tmp_name'], 'media/'.$pathName);
+
+            $user = User::find($request->id);
+                $user->photo = url('/media').'/'.$pathName;
+            $user->save();
         }
-
-        /***/
-        $user = User::find($request->id);
-
-        if($url != ''){
-            $user->photo = $url;
-        }
-
-        $user->save();
 
         return $array;
     }
